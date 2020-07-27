@@ -28,7 +28,8 @@ namespace MasterCommands
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IMasterCommandsRepo, MockMasterCommandsRepo>();
+            services.AddScoped<IMasterCommandsRepo, SqlMasterCommandsRepo>();
+            // services.AddScoped<IMasterCommandsRepo, MockMasterCommandsRepo>();
             services.AddDbContext<MasterCommandsContext>(opt => opt.UseSqlServer
             (Configuration.GetConnectionString("MasterCommandsConnection")));
         }
