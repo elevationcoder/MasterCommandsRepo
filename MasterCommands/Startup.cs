@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MasterCommands.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,9 +30,9 @@ namespace MasterCommands
         {
             services.AddControllers();
             services.AddScoped<IMasterCommandsRepo, SqlMasterCommandsRepo>();
-            // services.AddScoped<IMasterCommandsRepo, MockMasterCommandsRepo>();
             services.AddDbContext<MasterCommandsContext>(opt => opt.UseSqlServer
             (Configuration.GetConnectionString("MasterCommandsConnection")));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
