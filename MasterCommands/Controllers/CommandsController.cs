@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MasterCommands.Data;
+using MasterCommands.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,18 +14,22 @@ namespace MasterCommands.Controllers
     [ApiController]
     public class CommandsController : ControllerBase
     {
+        private readonly MockMasterCommandsRepo _repository = new MockMasterCommandsRepo();
         // GET: api/<CommandsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<IEnumerable<Command>> GetAllCommands()
         {
-            return new string[] { "value1", "value2" };
+            var commandItems = _repository.GetAllCommands();
+            return Ok(commandItems);
+            
         }
 
         // GET api/<CommandsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<Command> GetCommandById(int id)
         {
-            return "value";
+            var commandItem = _repository.GetCommandById(id);
+            return Ok(commandItem);
         }
 
         // POST api/<CommandsController>
