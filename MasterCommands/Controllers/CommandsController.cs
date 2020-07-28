@@ -20,7 +20,6 @@ namespace MasterCommands.Controllers
         {
             _repository = repository;
         }
-        // private readonly MockMasterCommandsRepo _repository = new MockMasterCommandsRepo();
         // GET: api/<CommandsController>
         [HttpGet]
         public ActionResult<IEnumerable<Command>> GetAllCommands()
@@ -30,12 +29,16 @@ namespace MasterCommands.Controllers
             
         }
 
-        // GET api/<CommandsController>/5
+        // GET api/<CommandsController>/{id}
         [HttpGet("{id}")]
         public ActionResult<Command> GetCommandById(int id)
         {
             var commandItem = _repository.GetCommandById(id);
-            return Ok(commandItem);
+            if(commandItem != null)
+            {
+                return Ok(commandItem);
+            }
+            return NotFound();
         }
 
         // POST api/<CommandsController>
