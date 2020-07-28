@@ -13,6 +13,7 @@ namespace MasterCommands.Profiles
         public CommandsProfile()
         {
             CreateMap<Command, MasterCommandsReadDto>();
+            CreateMap<MasterCommandsCreateDto, Command>();
         }
     }
 }

@@ -34,7 +34,7 @@ namespace MasterCommands.Controllers
         }
 
         // GET api/<CommandsController>/{id}
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name="GetCommandById")]
         public ActionResult<MasterCommandsReadDto> GetCommandById(int id)
         {
             var commandItem = _repository.GetCommandById(id);
@@ -47,8 +47,15 @@ namespace MasterCommands.Controllers
 
         // POST api/<CommandsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<MasterCommandsReadDto> CreateCommand(MasterCommandsCreateDto masterCommandsCreateDto)
         {
+            var commandModel = _mapper.Map<Command>(masterCommandsCreateDto);
+            _repository.CreateCommand(commandModel);
+            _repository.SaveChanges();
+
+            var commandReadDto = _mapper.Map<MasterCommandsReadDto>(commandModel);
+
+            return CreatedAtRoute(nameof(GetCommandById), new { Id = commandReadDto.Id }, commandReadDto);
         }
 
         // PUT api/<CommandsController>/5
