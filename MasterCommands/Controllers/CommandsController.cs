@@ -21,7 +21,7 @@ namespace MasterCommands.Controllers
         public CommandsController(IMasterCommandsRepo repository, IMapper mapper)
         {
             _repository = repository;
-            _mapper = mapper
+            _mapper = mapper;
         }
         // GET: api/<CommandsController>
         [HttpGet]
