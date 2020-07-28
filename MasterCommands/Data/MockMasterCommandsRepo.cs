@@ -33,5 +33,10 @@ namespace MasterCommands.Data
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateCommand(Command upcmd)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

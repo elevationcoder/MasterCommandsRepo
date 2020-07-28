@@ -14,6 +14,7 @@ namespace MasterCommands.Profiles
         {
             CreateMap<Command, MasterCommandsReadDto>();
             CreateMap<MasterCommandsCreateDto, Command>();
+            CreateMap<MasterCommandsUpdateDto, Command>();
         }
     }
 }

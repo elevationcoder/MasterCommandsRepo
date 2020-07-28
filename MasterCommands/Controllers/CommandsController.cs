@@ -60,8 +60,17 @@ namespace MasterCommands.Controllers
 
         // PUT api/<CommandsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult UpdateCommand(int id, MasterCommandsUpdateDto commandUpdateDto)
         {
+            var commandModelFromRepo = _repository.GetCommandById(id);
+            if(commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(commandUpdateDto, commandModelFromRepo);
+            _repository.UpdateCommand(commandModelFromRepo);
+            _repository.SaveChanges();
+            return NoContent();
         }
 
         // DELETE api/<CommandsController>/5
