@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MasterCommands.Data;
 using MasterCommands.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,12 @@ namespace MasterCommands.Controllers
     public class CommandsController : ControllerBase
     {
         private readonly IMasterCommandsRepo _repository;
+        private readonly IMapper _mapper;
 
-        public CommandsController(IMasterCommandsRepo repository)
+        public CommandsController(IMasterCommandsRepo repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper
         }
         // GET: api/<CommandsController>
         [HttpGet]
