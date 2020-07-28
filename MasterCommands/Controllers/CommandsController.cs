@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MasterCommands.Data;
+using MasterCommands.DTOs;
 using MasterCommands.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,12 +35,12 @@ namespace MasterCommands.Controllers
 
         // GET api/<CommandsController>/{id}
         [HttpGet("{id}")]
-        public ActionResult<Command> GetCommandById(int id)
+        public ActionResult<MasterCommandsReadDto> GetCommandById(int id)
         {
             var commandItem = _repository.GetCommandById(id);
             if(commandItem != null)
             {
-                return Ok(commandItem);
+                return Ok(_mapper.Map<MasterCommandsReadDto>(commandItem));
             }
             return NotFound();
         }
