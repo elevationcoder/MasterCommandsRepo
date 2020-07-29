@@ -6,6 +6,7 @@ using AutoMapper;
 using MasterCommands.Data;
 using MasterCommands.DTOs;
 using MasterCommands.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -29,6 +30,7 @@ namespace MasterCommands.Controllers
         public ActionResult<IEnumerable<MasterCommandsReadDto>> GetAllCommands()
         {
             var commandItems = _repository.GetAllCommands();
+
             return Ok(_mapper.Map<IEnumerable<MasterCommandsReadDto>>(commandItems));
             
         }
@@ -38,6 +40,7 @@ namespace MasterCommands.Controllers
         public ActionResult<MasterCommandsReadDto> GetCommandById(int id)
         {
             var commandItem = _repository.GetCommandById(id);
+
             if(commandItem != null)
             {
                 return Ok(_mapper.Map<MasterCommandsReadDto>(commandItem));
@@ -50,7 +53,9 @@ namespace MasterCommands.Controllers
         public ActionResult<MasterCommandsReadDto> CreateCommand(MasterCommandsCreateDto masterCommandsCreateDto)
         {
             var commandModel = _mapper.Map<Command>(masterCommandsCreateDto);
+
             _repository.CreateCommand(commandModel);
+
             _repository.SaveChanges();
 
             var commandReadDto = _mapper.Map<MasterCommandsReadDto>(commandModel);
@@ -63,13 +68,43 @@ namespace MasterCommands.Controllers
         public ActionResult UpdateCommand(int id, MasterCommandsUpdateDto commandUpdateDto)
         {
             var commandModelFromRepo = _repository.GetCommandById(id);
+
             if(commandModelFromRepo == null)
             {
                 return NotFound();
             }
+
             _mapper.Map(commandUpdateDto, commandModelFromRepo);
+
             _repository.UpdateCommand(commandModelFromRepo);
+
             _repository.SaveChanges();
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public ActionResult PatchCommandUpdate(int id, JsonPatchDocument<MasterCommandsUpdateDto> patchCommand)
+        {
+            var commandModelFromRepo = _repository.GetCommandById(id);
+            if(commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            var commandToPatch = _mapper.Map<MasterCommandsUpdateDto>(commandModelFromRepo);
+
+            patchCommand.ApplyTo(commandToPatch, ModelState);
+            if(!TryValidateModel(commandToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(commandToPatch, commandModelFromRepo);
+
+            _repository.UpdateCommand(commandModelFromRepo);
+
+            _repository.SaveChanges();
+
             return NoContent();
         }
 
