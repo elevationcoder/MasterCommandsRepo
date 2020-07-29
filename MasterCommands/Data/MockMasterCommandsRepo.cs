@@ -12,6 +12,11 @@ namespace MasterCommands.Data
             throw new NotImplementedException();
         }
 
+        public void DeleteCommand(Command downcmd)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Command> GetAllCommands()
         {
             var commands = new List<Command>

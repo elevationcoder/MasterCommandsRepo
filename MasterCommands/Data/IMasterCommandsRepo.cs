@@ -14,5 +14,6 @@ namespace MasterCommands.Data
         Command GetCommandById(int id);
         void CreateCommand(Command cmd);
         void UpdateCommand(Command upcmd);
+        void DeleteCommand(Command downcmd);
     }
 }

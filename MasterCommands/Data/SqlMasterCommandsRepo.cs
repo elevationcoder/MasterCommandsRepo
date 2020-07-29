@@ -25,6 +25,15 @@ namespace MasterCommands.Data
             _context.Commands.Add(cmd);
         }
 
+        public void DeleteCommand(Command downcmd)
+        {
+            if (downcmd == null)
+            {
+                throw new ArgumentNullException(nameof(downcmd));
+            }
+            _context.Commands.Remove(downcmd);
+        }
+
         public IEnumerable<Command> GetAllCommands()
         {
             return _context.Commands.ToList();
