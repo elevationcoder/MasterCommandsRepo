@@ -9,8 +9,6 @@ using MasterCommands.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace MasterCommands.Controllers
 {
     [Route("api/[controller]")]
@@ -63,7 +61,7 @@ namespace MasterCommands.Controllers
             return CreatedAtRoute(nameof(GetCommandById), new { Id = commandReadDto.Id }, commandReadDto);
         }
 
-        // PUT api/<CommandsController>/5
+        // PUT api/<CommandsController>/{id}
         [HttpPut("{id}")]
         public ActionResult UpdateCommand(int id, MasterCommandsUpdateDto commandUpdateDto)
         {
@@ -82,7 +80,7 @@ namespace MasterCommands.Controllers
 
             return NoContent();
         }
-
+        // PATCH api/<CommandsController>/{id}
         [HttpPatch("{id}")]
         public ActionResult PatchCommandUpdate(int id, JsonPatchDocument<MasterCommandsUpdateDto> patchCommand)
         {
@@ -108,7 +106,7 @@ namespace MasterCommands.Controllers
             return NoContent();
         }
 
-        // DELETE api/<CommandsController>/5
+        // DELETE api/<CommandsController>/{id}
         [HttpDelete("{id}")]
         public ActionResult DeleteCommand(int id)
         {
